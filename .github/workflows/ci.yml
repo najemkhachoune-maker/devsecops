@@ -5,18 +5,27 @@ on:
     branches: [ main, develop, feature/**, chore/** ]
     paths:
       - 'backend/notification-service/**'
+<<<<<<< HEAD
       - '.github/workflows/ci.yml'
+=======
+      - '.github/workflows/ci-notification.yml'
+>>>>>>> 8317c56de2783df89915e32e2b2d7e86315b0889
   pull_request:
     branches: [ main, develop ]
     paths:
       - 'backend/notification-service/**'
+<<<<<<< HEAD
       - '.github/workflows/ci.yml'
+=======
+      - '.github/workflows/ci-notification.yml'
+>>>>>>> 8317c56de2783df89915e32e2b2d7e86315b0889
   workflow_dispatch:
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+<<<<<<< HEAD
     # 👉 Le profil test sera utilisé pour CI (Firebase désactivé)
     env:
       SPRING_PROFILES_ACTIVE: test
@@ -31,6 +40,19 @@ jobs:
         uses: actions/checkout@v4
 
       # --- 2) Java + Maven cache ---
+=======
+    defaults:
+      run:
+        working-directory: backend/notification-service
+
+    steps:
+
+      # --- 1) Récupération du code ---
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # --- 2) Installation JDK ---
+>>>>>>> 8317c56de2783df89915e32e2b2d7e86315b0889
       - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
@@ -38,6 +60,7 @@ jobs:
           java-version: '17'
           cache: maven
 
+<<<<<<< HEAD
       # --- 3) Permettre exécution mvnw ---
       - name: Make Maven Wrapper executable
         run: chmod +x mvnw
@@ -70,5 +93,23 @@ jobs:
         with:
           name: failsafe-reports
           path: backend/notification-service/target/failsafe-reports/*
+=======
+      # --- 3) Rendre mvnw exécutable (important sur Linux) ---
+      - name: Make Maven Wrapper executable
+        run: chmod +x mvnw
+
+      # --- 4) Build + Tests ---
+      - name: Build and run tests
+        run: ./mvnw -B -ntp clean verify
+
+      # --- 5) Upload des résultats de tests en cas d'échec ---
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: notif-surefire-reports
+          path: backend/notification-service/target/surefire-reports/*.xml
+
+>>>>>>> 8317c56de2783df89915e32e2b2d7e86315b0889
 
 
