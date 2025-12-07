@@ -27,7 +27,7 @@ jobs:
       run:
         working-directory: backend/notification-service
 
-    steps:
+   steps:
       # 1) Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
