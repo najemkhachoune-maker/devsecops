@@ -108,7 +108,7 @@ jobs:
          ignore-unfixed: true
        # 7) Build JAR
       - name: Build JAR
-       if: |
+        if: |
           github.event_name == 'pull_request' ||
           github.ref == 'refs/heads/develop' ||
           github.ref == 'refs/heads/main'
@@ -116,7 +116,7 @@ jobs:
 
       # 8) Build Docker Image
       - name: Build Docker Image
-       if: |
+        if: |
           github.event_name == 'pull_request' ||
           github.ref == 'refs/heads/develop' ||
           github.ref == 'refs/heads/main'
@@ -124,7 +124,7 @@ jobs:
 
       # 9) Trivy Docker Image Scan
       - name: Trivy docker Image  Scan
-       if: |
+        if: |
           github.event_name == 'pull_request' ||
           github.ref == 'refs/heads/develop' ||
           github.ref == 'refs/heads/main'
