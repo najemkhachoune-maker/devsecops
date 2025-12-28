@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+  kafka:
+    producer:
+      acks: all
+      retries: 3
+
+logging:
+  level:
+    com.skillverse.authservice: INFO
+    org.springframework.security: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
