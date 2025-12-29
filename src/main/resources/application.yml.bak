@@ -1,0 +1,90 @@
+spring:
+  profiles:
+    active: dev 
+  application:
+    name: auth-service
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/skillverse_auth
+    username: postgres
+    password: admin123
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: ${SHOW_SQL:false}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 20
+        default_schema: public
+  
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8081/realms/skillverse}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8081/realms/skillverse/protocol/openid-connect/certs}
+
+# Keycloak configuration for REST API calls
+keycloak:
+  auth-server-url: http://localhost:8081
+  realm: skillverse
+  resource: auth-service
+  credentials:
+    secret: ktYvuaST0D1zcqJWjNSz8cXh68aVLFrB
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /api
+  compression:
+    enabled: true
+    mime-types: text/html,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+
+# Logging
+logging:
+  level:
+    com.skillverse: DEBUG
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.springframework.core.env: DEBUG
+    org.springframework.boot: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# OpenAPI
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    try-it-out-enabled: true
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+
+# Application properties
+app:
+  jwt:
+    access-token-validity: 300
+    refresh-token-validity: 86400
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:4200}
